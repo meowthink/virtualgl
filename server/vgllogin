@@ -55,4 +55,4 @@ elif [ "$1" = "-x" ]; then
 	$XAUTH add $DISPLAY . $3
 fi
 
-exec $SHELL -l
+exec $SHELL 

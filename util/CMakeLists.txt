@@ -1,3 +1,4 @@
+ADD_DEFINITIONS(-fPIC)
 add_library(vglutil STATIC GenericQ.cpp Log.cpp Mutex.cpp Thread.cpp bmp.c
 	pf.c)
 if(UNIX)

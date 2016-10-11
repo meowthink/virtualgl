@@ -189,7 +189,10 @@ void VirtualWin::checkResize(void)
 {
 	if(eventdpy)
 	{
+#ifndef i386
+// This will slooooowing down a lot on compat(i386 on amd64) systems
 		XSync(dpy, False);
+#endif
 		while(XPending(eventdpy) > 0)
 		{
 			XEvent event;
@@ -305,6 +308,8 @@ void VirtualWin::readback(GLint drawBuf, bool spoilLast, bool sync)
 		}
 	}
 
+	try
+	{ // Catch all exceptions. Under unreliable connections, once socket failed the whole interposed libGL failed. 
 	if(strlen(fconfig.transport) > 0)
 	{
 		sendPlugin(drawBuf, spoilLast, sync, doStereo, stereoMode);
@@ -334,6 +339,11 @@ void VirtualWin::readback(GLint drawBuf, bool spoilLast, bool sync)
 		case RRCOMP_XV:
 			sendXV(drawBuf, spoilLast, sync, doStereo, stereoMode);
 		#endif
+	}
+	}
+	catch(...)
+	{
+		vglout.println("[VGL] ERROR: exception within readback.");
 	}
 }
 

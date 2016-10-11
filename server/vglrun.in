@@ -106,8 +106,21 @@ GEOPROBE_USEGLX=1
 export GEOPROBE_USEGLX
 PROMAGIC_USEGLX=1
 export PROMAGIC_USEGLX
+# For VirtualBox
 VBOX_CROGL_FORCE_SUPPORTED=1
 export VBOX_CROGL_FORCE_SUPPORTED
+CR_SYSTEM_GL_PATH=/opt/VirtualGL/fakelib64/
+export CR_SYSTEM_GL_PATH
+
+X_HAS_DC=`xdpyinfo | grep DirectColor`
+if [ -z $X_HAS_DC ]; then
+# Force SDL not to use DirectColor, or fails on XQuartz, VcXsrv...
+        SDL_VIDEO_X11_NODIRECTCOLOR=1
+        export SDL_VIDEO_X11_NODIRECTCOLOR
+# Force SDL not to use XRandR, or fails on VcXsrv
+        SDL_VIDEO_X11_XRANDR=0
+        export SDL_VIDEO_X11_XRANDR
+fi
 
 __VGL_DL=1
 __VGL_GE=0
